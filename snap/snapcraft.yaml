@@ -8,10 +8,6 @@ description: |
 grade: stable
 confinement: strict 
 
-architectures:
-     - build-on: arm64
-
-
 parts:
   webconnector-lite:
     plugin: python
