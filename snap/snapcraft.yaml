@@ -1,0 +1,32 @@
+name: webconnector-lite 
+base: core18 
+version: '0.0.1' 
+summary: WebConnector lite server  
+description: |
+  Simple WebSocket server; accesses ctrlX Data Layer via REST API
+
+grade: stable
+confinement: strict 
+
+parts:
+  webconnector-lite:
+    plugin: python
+    python-version: python3
+    source: .
+    python-packages:
+      - asyncio
+      - websockets
+      - requests
+      - aiohttp
+      - async_timeout
+
+apps:
+  webconnector-lite:
+    command: webconnector-lite
+    plugs:
+      - network
+      - network-control
+      - network-bind
+      - home
+    daemon: simple
+    restart-condition: always

@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+def main():
+    import sys
+    import logging  
+    import asyncio
+    import websockets
+    import requests
+    import json
+    import aiohttp
+    import async_timeout
+
+    async def getToken(session, url, user):
+        with async_timeout.timeout(10):
+            async with session.post(url, json=user, ssl=False) as response:
+                temp = json.loads(await response.text())
+                return str(temp["access_token"])
+
+
+    async def fetchData(session, url, headers):
+        await asyncio.sleep(0.1)
+        with async_timeout.timeout(10):
+            async with session.get(url, headers=headers, ssl=False) as response:
+                return await response.text()
+
+
+    async def main(websocket, path):
+        async with aiohttp.ClientSession() as session:
+            payload = {"name": "boschrexroth", "password": "boschrexroth"}
+            token = await getToken(session, "https://127.0.0.1/identity-manager/api/v1.0/auth/token", payload)
+            headers = {'Authorization': 'Bearer ' + token}
+
+            while True:
+                value = await fetchData(session, "https://127.0.0.1/automation/api/v1.0/plc/app/Application/sym/PLC_PRG/dTest", headers)
+                await websocket.send(value)
+
+
+    start_server = websockets.serve(main, "192.168.1.1", 8765)  
+
+    asyncio.get_event_loop().run_until_complete(start_server)
+    asyncio.get_event_loop().run_forever()
+
+
+if __name__ == '__main__':
+    main()
