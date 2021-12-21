@@ -18,7 +18,7 @@ def main():
 
 
     async def fetchData(session, url, headers):
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.05)
         with async_timeout.timeout(10):
             async with session.get(url, headers=headers, ssl=False) as response:
                 return await response.text()
