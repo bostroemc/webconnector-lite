@@ -1,6 +1,6 @@
 name: webconnector-lite 
-base: core20 
-version: '1.0.1' 
+base: core18 
+version: '1.0.2' 
 summary: WebConnector lite server  
 description: |
   Simple WebSocket server; accesses ctrlX Data Layer via REST API
