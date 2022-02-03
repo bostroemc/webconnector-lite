@@ -27,7 +27,7 @@ def main():
     async def main(websocket, path):
         async with aiohttp.ClientSession() as session:
             payload = {"name": "boschrexroth", "password": "boschrexroth"}
-            token = await getToken(session, "https://127.0.0.1/identity-manager/api/v1.0/auth/token", payload)
+            token = await getToken(session, "https://127.0.0.1/identity-manager/api/v2/auth/token", payload)
             headers = {'Authorization': 'Bearer ' + token}
 
             while True:
